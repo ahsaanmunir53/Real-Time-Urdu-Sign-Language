@@ -64,10 +64,10 @@ def build_model(input_shape=(FRAMES_PER_SAMPLE, KEYPOINT_DIM), num_classes=NUM_C
 # === Load Model and Label Encoder ===
 try:
     model = build_model()
-    model.load_weights("C:/Users/HP/psl/ml_model/best_hybrid_model.h5")
+    model.load_weights("C:/Users/Acer/OneDrive/Desktop/FYP/Real_Time_Urdu_Sign_Language/ml_model/best_hybrid_model.h5")
     print("✅ Model loaded successfully!")
 
-    with open("C:/Users/HP/psl/ml_model/label_encoder.pkl", "rb") as f:
+    with open("C:/Users/Acer/OneDrive/Desktop/FYP/Real_Time_Urdu_Sign_Language/ml_model/label_encoder.pkl", "rb") as f:
         label_encoder = pickle.load(f)
     print("✅ Label encoder loaded successfully!")
 except Exception as e:
