@@ -38,7 +38,7 @@ app.use('/api/translate', require('./routes/translateRoutes'));
 const modelsDir = path.join(__dirname, '..', 'frontend', 'public', 'models');
 app.use('/models', express.static(modelsDir));
 
-app.get('/', (req, res) => {
+app.get('/api/status', (req, res) => {
   res.json({
     backend: 'ok',
     database: dbReady ? 'connected' : 'not connected (auth disabled, rest works)',
@@ -46,6 +46,18 @@ app.get('/', (req, res) => {
     check: { mlHealth: '/api/translate/health', dictionary: '/api/translate/dictionary' },
   });
 });
+
+
+// ------------------------- serve the React build (production) --------------
+const buildDir = path.join(__dirname, '..', 'frontend', 'build');
+if (fs.existsSync(buildDir)) {
+  app.use(express.static(buildDir));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/') || req.path.startsWith('/models/')) return next();
+    res.sendFile(path.join(buildDir, 'index.html'));
+  });
+  console.log('   [web] serving frontend build');
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

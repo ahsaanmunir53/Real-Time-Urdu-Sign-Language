@@ -15,7 +15,7 @@ function SignToText() {
     if (!text || text.includes("not clear") || text.includes("Server error")) return;
     
     try {
-      const response = await fetch("http://127.0.0.1:8000/text-to-speech", {
+      const response = await fetch("/api/translate/text-to-voice", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
@@ -59,14 +59,14 @@ function SignToText() {
       
       setLoading(true);
       try {
-        const response = await fetch("http://127.0.0.1:8000/predict_video", { method: "POST", body: formData });
+        const response = await fetch("/api/translate/sign-to-text", { method: "POST", body: formData });
         const result = await response.json();
 
         // 90% Threshold Filter[cite: 16]
-        if (result.confidence >= 0.90) {
-          setPrediction(result.prediction);
+        if (result.confidence >= 0.50) {
+          setPrediction(result.translatedText);
           setConfidence((result.confidence * 100).toFixed(2));
-          speakNow(result.prediction); // Auto-play voice on success
+          speakNow(result.translatedText); // Auto-play voice on success
         } else {
           setPrediction("Sign not clear, try again");
           setConfidence((result.confidence * 100).toFixed(2));

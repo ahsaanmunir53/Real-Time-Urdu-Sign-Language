@@ -14,7 +14,8 @@
 const axios = require('axios');
 const FormData = require('form-data');
 
-const ML_API = process.env.ML_API_URL || 'http://127.0.0.1:8000';
+const RAW_ML = process.env.ML_API_URL || 'http://127.0.0.1:8000';
+const ML_API = RAW_ML.startsWith('http') ? RAW_ML : `https://${RAW_ML}`;
 const FRAMES = 30;
 const KEYPOINT_DIM = 258;
 

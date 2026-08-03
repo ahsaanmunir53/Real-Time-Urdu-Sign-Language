@@ -1,0 +1,37 @@
+services:
+  # ------------------------------------------------------------------
+  # 1) Website: React build served by the Express backend (auth, OTP,
+  #    3D dictionary, and proxy to the ML service)
+  # ------------------------------------------------------------------
+  - type: web
+    name: sign-web
+    runtime: node
+    plan: free
+    buildCommand: cd frontend && npm install --include=dev && npm run build && cd ../backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: ML_API_URL
+        fromService:
+          type: web
+          name: sign-ml-api
+          property: host
+      - key: MONGO_URI          # paste your MongoDB Atlas URI in the dashboard
+        sync: false
+      - key: EMAIL_USER         # Gmail address for OTP mails (optional)
+        sync: false
+      - key: EMAIL_PASS         # Gmail App Password (optional)
+        sync: false
+
+  # ------------------------------------------------------------------
+  # 2) ML service: TFLite + mediapipe, fits the free 512MB instance
+  # ------------------------------------------------------------------
+  - type: web
+    name: sign-ml-api
+    runtime: python
+    plan: free
+    rootDir: ml_api_lite
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 1 --threads 2 --timeout 300 -b 0.0.0.0:$PORT app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
