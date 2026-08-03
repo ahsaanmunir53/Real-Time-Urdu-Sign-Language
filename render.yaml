@@ -14,7 +14,7 @@ services:
         fromService:
           type: web
           name: sign-ml-api
-          property: host
+          property: hostport
       - key: MONGO_URI          # paste your MongoDB Atlas URI in the dashboard
         sync: false
       - key: EMAIL_USER         # Gmail address for OTP mails (optional)
