@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Mail, Lock, Phone, User, ShieldCheck, KeyRound } from "lucide-react";
-import "../index.css"; // Tailwind CSS file
+import "../index.css";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -20,26 +20,73 @@ function Register() {
     setError("");
   };
 
-  const handleSendOtp = () => {
-    if (!formData.email || !formData.name || !formData.phone || !formData.password || !formData.confirmPassword) {
-      setError("Please fill in all fields before sending OTP");
-      return;
-    }
-    setOtpSent(true);
-  };
+const handleSendOtp = async () => {
+  if (!formData.email || !formData.name || !formData.phone || !formData.password || !formData.confirmPassword) {
+    setError("Please fill in all fields before sending OTP");
+    return;
+  }
 
-  const handleRegister = () => {
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-    if (!formData.otp) {
-      setError("Please enter the OTP sent to your email");
-      return;
-    }
-    console.log("Registering with:", formData);
-  };
+  try {
+    const response = await fetch("http://localhost:5000/api/otp/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: formData.email }),
+    });
 
+    const data = await response.json();
+    if (response.ok) {
+      setOtpSent(true);
+      alert("OTP sent to your email!");
+    } else {
+      setError(data.error || "Failed to send OTP");
+    }
+  } catch (err) {
+    setError("Server error. Is your backend running?");
+  }
+};
+
+const handleRegister = async () => {
+  if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match");
+    return;
+  }
+
+  try {
+    // 1. Pehle OTP verify karein
+    const verifyRes = await fetch("http://localhost:5000/api/otp/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: formData.email, otp: formData.otp }),
+    });
+
+    if (!verifyRes.ok) {
+      setError("Invalid or expired OTP");
+      return;
+    }
+
+    // 2. Agar OTP sahi hai, toh Registration karein
+    const regRes = await fetch("http://localhost:5000/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password
+      }),
+    });
+
+    const regData = await regRes.json();
+    if (regRes.ok) {
+      alert("Registration Successful! Redirecting to login...");
+      window.location.href = "/login";
+    } else {
+      setError(regData.error || "Registration failed");
+    }
+  } catch (err) {
+    setError("Connection error to backend");
+  }
+};
   return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4">
       <div className="flex w-full max-w-6xl card-glow rounded-lg overflow-hidden">

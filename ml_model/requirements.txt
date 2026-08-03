@@ -1,0 +1,27 @@
+# ==========================================================================
+#  VERIFIED COMBINATION - do not bump these casually.
+#
+#  Tested together in one process: mediapipe's holistic.process() runs AND
+#  Keras predicts, on protobuf 4.25.3.
+#
+#  REQUIRES PYTHON 3.10, 3.11 or 3.12.  NOT 3.13.
+#  TensorFlow 2.19 has no Python 3.13 wheel - that is why "pip install
+#  tensorflow==2.15" offered you only 2.20+. And TF 2.20 requires
+#  protobuf>=5.28, which breaks mediapipe at runtime.
+#
+#  On Windows, create the venv with an explicit version:
+#      py -3.12 -m venv venv
+#      venv\Scripts\activate
+#      pip install -r requirements.txt
+# ==========================================================================
+
+tensorflow==2.19.0          # protobuf pin allows 4.25.x -> coexists with mediapipe
+mediapipe==0.10.14          # last version with solutions.holistic (needs protobuf <5)
+protobuf==4.25.3            # the overlap both agree on
+
+flask==3.0.3
+flask-cors==4.0.1
+opencv-python>=4.9,<6
+numpy>=1.26,<3          # TF 2.19 works with numpy 2.x
+scikit-learn>=1.3,<2
+gtts==2.5.3

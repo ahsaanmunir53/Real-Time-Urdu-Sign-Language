@@ -1,0 +1,13 @@
+node_modules/
+venv/
+__pycache__/
+*.pyc
+*.whl
+*.npy
+*.mp4
+/models/*.keras
+!/models/model_3.keras
+.env
+*.log
+dist/
+Thumbs.db

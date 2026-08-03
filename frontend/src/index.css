@@ -1,13 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Outfit', sans-serif;
+  background-color: #030014;
+  color: #fff;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Global Animated Background Orbs */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: -2;
+  opacity: 0.4;
+  pointer-events: none;
+  animation: floatOrb 20s infinite ease-in-out alternate;
 }
+
+body::before {
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.4), transparent 60%);
+  top: -10%;
+  left: -20%;
+}
+
+body::after {
+  background: radial-gradient(circle, rgba(112, 0, 255, 0.4), transparent 60%);
+  bottom: -20%;
+  right: -10%;
+  animation-delay: -10s;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(10vw, -15vh) scale(1.1); }
+  66% { transform: translate(-10vw, 15vh) scale(0.9); }
+  100% { transform: translate(5vw, -5vh) scale(1.2); }
+}
+
+/* Global Glass Grid Overlay with AI Neural Hand Landmark Connection Pattern */
+.bg-grid {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: 
+    radial-gradient(circle at center, rgba(0, 212, 255, 0.25) 1.5px, transparent 1.5px),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px, 40px 40px, 40px 40px;
+  z-index: -1;
+  pointer-events: none;
+  animation: bgPulse 12s infinite ease-in-out alternate;
+}
+
+@keyframes bgPulse {
+  0% {
+    background-position: 0px 0px, center, center;
+    filter: hue-rotate(0deg) brightness(0.9);
+  }
+  50% {
+    background-position: 25px -15px, center, center;
+    filter: hue-rotate(60deg) brightness(1.2);
+  }
+  100% {
+    background-position: -25px 25px, center, center;
+    filter: hue-rotate(0deg) brightness(0.9);
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Mouse cursor follower spotlight */
+.mouse-glow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, rgba(112, 0, 255, 0.05) 50%, transparent 80%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1; /* Behind actual content but above backgrounds */
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+

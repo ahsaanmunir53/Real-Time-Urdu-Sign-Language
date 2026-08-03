@@ -1,0 +1,61 @@
+==========================================================
+  SIGN LANGUAGE - COMPLETE PROJECT
+
+  PYTHON VERSION MATTERS: use 3.10, 3.11 or 3.12.
+  On 3.13 the ML service cannot install (no TF 2.19 wheel),
+  and TF 2.20+ breaks mediapipe via protobuf 5.
+==========================================================
+
+Copy this SIGN_LANGUAGE folder over D:\Company _work\SIGN_LANGUAGE
+(or merge it in - every file here is either new or a fix).
+
+FIRST, THE ONE MANUAL STEP
+--------------------------
+Paste all 41 .glb files into:
+
+    frontend\public\models\
+
+They weigh 386 MB so they are not in this zip. Nothing 3D
+renders until they are there.
+
+YOUR TRAINED MODEL
+------------------
+Leave it where it is:
+
+    D:\Company _work\SIGN_LANGUAGE\models\
+        model_0.keras ... model_4.keras
+        label_encoder.pkl
+
+The ML API already points at that folder.
+
+THEN, IN THREE TERMINALS
+------------------------
+1) ML service   *** NEEDS PYTHON 3.10-3.12, NOT 3.13 ***
+   cd D:\Company _work\SIGN_LANGUAGE\ml_model
+
+   py -3.12 -m venv venv          <-- explicit version. plain "python" gave
+   venv\Scripts\activate             you 3.13, which has no TensorFlow 2.19
+   pip install -r requirements.txt    wheel (that was the install error).
+
+   python check_setup.py          <-- RUN THIS FIRST. It verifies python,
+                                      every package, and that your model
+                                      loads, and prints exactly what to fix.
+   python sign_model_api.py
+   -> open http://127.0.0.1:8000/health
+      expect: "ok": true, "feature_mode": "engineered-271", "num_classes": 33
+
+2) Backend
+   cd D:\Company _work\SIGN_LANGUAGE\backend
+   copy .env.example .env
+   npm install
+   npm start
+   -> open http://localhost:5000/api/translate/health
+
+3) Frontend
+   cd D:\Company _work\SIGN_LANGUAGE\frontend
+   npm install --legacy-peer-deps
+   npm start
+   -> http://localhost:3000
+
+Start them in that order. Full details in INTEGRATION-README.md
+==========================================================

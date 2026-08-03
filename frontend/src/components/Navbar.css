@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800;900&display=swap');
+
+/* Navbar Main Container */
+.navbar-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glassmorphism Effect - Floating Centered Capsule */
+.navbar-glass {
+  width: 85%;
+  max-width: 1100px;
+  margin: 25px auto 0;
+  background: rgba(8, 12, 28, 0.45) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 35px;
+  box-shadow: 
+    0 20px 45px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(0, 212, 255, 0.05) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+/* Scroll Animation Effect */
+.navbar-main.scrolled .navbar-glass {
+  width: 72%;
+  max-width: 950px;
+  margin-top: 15px;
+  background: rgba(8, 12, 28, 0.75) !important;
+  padding: 8px 25px;
+  border-color: rgba(0, 212, 255, 0.25) !important;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(112, 0, 255, 0.15) !important;
+}
+
+/* Logo Container */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-logo:hover {
+  transform: scale(1.03);
+}
+
+/* Logo Image Styling */
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.5));
+  transition: all 0.4s ease;
+}
+
+.nav-logo:hover .logo-img {
+  filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.8)) rotate(10deg);
+}
+
+/* Logo Text Styling */
+.logo-text {
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.logo-text span {
+  background: linear-gradient(135deg, #00d4ff 0%, #7000ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  text-shadow: 0 0 15px rgba(112, 0, 255, 0.15);
+}
+
+/* Menu Links */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.link, .active-link {
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  padding: 8px 18px;
+  border-radius: 30px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+}
+
+.link {
+  color: rgba(255, 255, 255, 0.65);
+  border: 1px solid transparent;
+}
+
+.link:hover {
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.15);
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+}
+
+/* Modern Pill-Badge Active State */
+.active-link {
+  color: #ffffff;
+  background: rgba(112, 0, 255, 0.18) !important;
+  border: 1px solid rgba(112, 0, 255, 0.4) !important;
+  box-shadow: 
+    0 0 15px rgba(112, 0, 255, 0.25),
+    inset 0 0 8px rgba(112, 0, 255, 0.15);
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive Toggle */
+.mobile-toggle {
+  display: none;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+.hamburger {
+  width: 26px;
+  height: 18px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger span {
+  display: block;
+  height: 2.5px;
+  width: 100%;
+  background: #00d4ff;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger.open span:nth-child(1) { 
+  transform: translateY(7px) rotate(45deg); 
+  background: #7000ff; 
+}
+.hamburger.open span:nth-child(2) { 
+  opacity: 0; 
+}
+.hamburger.open span:nth-child(3) { 
+  transform: translateY(-8px) rotate(-45deg); 
+  background: #7000ff; 
+}
+
+/* Mobile Dropdown Menu */
+.mobile-menu {
+  width: 85%;
+  max-width: 950px;
+  margin: 15px auto 0;
+  border-radius: 24px;
+  background: rgba(8, 12, 28, 0.93);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: absolute;
+  top: 100%;
+  left: 7.5%;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  z-index: 9998;
+}
+
+.navbar-main.scrolled .mobile-menu {
+  width: 72%;
+  left: 14%;
+  margin-top: 10px;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.mobile-menu .link, .mobile-menu .active-link {
+  padding: 10px 0;
+  border-radius: 12px;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 992px) {
+  .navbar-glass {
+    width: 90%;
+    padding: 10px 25px;
+  }
+  .navbar-main.scrolled .navbar-glass {
+    width: 85%;
+    padding: 8px 20px;
+  }
+  .nav-menu {
+    display: none;
+  }
+  .mobile-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 1.15rem;
+  }
+  .logo-img {
+    width: 32px;
+    height: 32px;
+  }
+  .navbar-glass {
+    padding: 8px 18px;
+    margin-top: 15px;
+  }
+}

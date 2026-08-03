@@ -5,11 +5,33 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    // Call backend API to authenticate
-    console.log("Logging in with:", { email, password });
-  };
+  const handleLogin = async () => {
+  if (!email || !password) {
+    alert("Please fill in all fields");
+    return;
+  }
 
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert("Login Successful! Welcome " + data.user.name);
+      // Data ko localStorage mein save karein takay user logged-in rahay
+      localStorage.setItem("user", JSON.stringify(data.user));
+      window.location.href = "/dashboard"; // Ya jahan aap bhejna chahein
+    } else {
+      alert(data.error || "Invalid Credentials");
+    }
+  } catch (err) {
+    alert("Backend server is not responding");
+  }
+};
   return (
     <div className="login-wrapper">
       <div className="login-card">
