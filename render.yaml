@@ -22,7 +22,14 @@ services:
       # The public URL needs no private networking and no scheme guessing.
       # If you rename the ML service in this file, change this to match.
       - key: ML_API_URL
+<<<<<<< HEAD
         value: https://sign-ml-api.onrender.com
+=======
+        fromService:
+          type: web
+          name: sign-ml-api
+          property: hostport
+>>>>>>> 5aab36c1d355e0177161652c7671804a5d24f9ba
       - key: MONGO_URI          # paste your MongoDB Atlas URI in the dashboard
         sync: false
       - key: EMAIL_USER         # Gmail address for OTP mails (optional)
