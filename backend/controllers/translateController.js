@@ -14,26 +14,73 @@
 const axios = require('axios');
 const FormData = require('form-data');
 
-const RAW_ML = process.env.ML_API_URL || 'http://127.0.0.1:8000';
-const ML_API = RAW_ML.startsWith('http') ? RAW_ML : `https://${RAW_ML}`;
 const FRAMES = 30;
 const KEYPOINT_DIM = 258;
 
+// ---------------------------------------------------------------------------
+// Resolving the ML service address.
+//
+// The previous version was:
+//     RAW_ML.startsWith('http') ? RAW_ML : `https://${RAW_ML}`
+// With render.yaml injecting "sign-ml-api:10000" (an internal host:port with
+// no scheme) that produced "https://sign-ml-api:10000". TLS to an internal
+// hostname on a non-standard port cannot succeed, so every request failed with
+// ECONNREFUSED / ECONNRESET and the user saw "Server error". Locally the
+// variable is unset, the fallback is used, and nothing looks wrong - which is
+// why this only broke on deployment.
+//
+// Rule now: anything that looks like an internal address (bare hostname, or
+// host:port, or *.internal) gets http://. A public domain gets https://.
+// ---------------------------------------------------------------------------
+function resolveMlUrl(raw) {
+  const v = (raw || '').trim().replace(/\/+$/, '');
+  if (!v) return 'http://127.0.0.1:8000';
+  if (/^https?:\/\//i.test(v)) return v;
+  const host = v.split(':')[0];
+  const internal = !host.includes('.') || host.endsWith('.internal') ||
+                   host === 'localhost' || /^\d+\.\d+\.\d+\.\d+$/.test(host);
+  return (internal ? 'http://' : 'https://') + v;
+}
+
+const ML_API = resolveMlUrl(process.env.ML_API_URL);
+console.log(`   [ml] ML_API_URL=${process.env.ML_API_URL || '(unset)'} -> using ${ML_API}`);
+
+// A free instance sleeps after 15 minutes of idling and takes 30-90 s to wake.
+// These timeouts are generous on purpose; a request that fails at 5 s looks
+// identical to a service that is down.
+const T_HEALTH = 90000;
+const T_PREDICT = 120000;
+const T_VIDEO = 180000;
+
 function mlDownResponse(res, err) {
-  const offline = ['ECONNREFUSED', 'ECONNRESET', 'ETIMEDOUT'].includes(err.code);
-  console.error('ML API error:', err.code || err.message);
+  const offline = ['ECONNREFUSED', 'ECONNRESET', 'ETIMEDOUT', 'ENOTFOUND',
+                   'EAI_AGAIN', 'ECONNABORTED'].includes(err.code);
+  console.error('ML API error:', err.code || err.message, '| target:', ML_API);
   return res.status(503).json({
     error: offline
-      ? `ML service is not running at ${ML_API}. Start it with: python sign_model_api.py`
+      ? `Could not reach the ML service at ${ML_API}.`
       : 'ML service returned an error.',
+    hint: offline
+      ? 'If this is a free instance it may be waking up - try once more in a minute. ' +
+        'Otherwise check that ML_API_URL points at the ML service and includes http:// or https://.'
+      : undefined,
     detail: err.response?.data || err.message,
   });
 }
 
+// Wake the ML instance at boot so the first user is not the one who pays the
+// cold start. Failure here is not fatal and is only logged.
+(function warmUp() {
+  axios.get(`${ML_API}/health`, { timeout: T_HEALTH })
+    .then(({ data }) => console.log(`   [ml] ${data.ok ? 'model loaded' : 'REACHED BUT MODEL NOT LOADED: ' + data.error}`
+      + (data.num_classes ? `, ${data.num_classes} classes` : '')))
+    .catch((e) => console.log(`   [ml] warm-up failed (${e.code || e.message}) - will retry on first request`));
+})();
+
 // GET /api/translate/health  -> is the ML model actually loaded?
 const health = async (req, res) => {
   try {
-    const { data } = await axios.get(`${ML_API}/health`, { timeout: 5000 });
+    const { data } = await axios.get(`${ML_API}/health`, { timeout: T_HEALTH });
     return res.status(data.ok ? 200 : 503).json({ backend: 'ok', ml: data });
   } catch (err) {
     return mlDownResponse(res, err);
@@ -53,7 +100,7 @@ const signToText = async (req, res) => {
           got: [kp.length, Array.isArray(kp[0]) ? kp[0].length : null],
         });
       }
-      const { data } = await axios.post(`${ML_API}/predict`, { keypoints: kp }, { timeout: 60000 });
+      const { data } = await axios.post(`${ML_API}/predict`, { keypoints: kp }, { timeout: T_PREDICT });
       return res.status(200).json({
         translatedText: data.prediction,
         confidence: data.confidence,
@@ -67,7 +114,7 @@ const signToText = async (req, res) => {
       form.append('video', req.file.buffer, req.file.originalname || 'clip.webm');
       const { data } = await axios.post(`${ML_API}/predict_video`, form, {
         headers: form.getHeaders(),
-        timeout: 120000,
+        timeout: T_VIDEO,
         maxBodyLength: Infinity,
       });
       return res.status(200).json({
@@ -132,7 +179,7 @@ const textToVoice = async (req, res) => {
     const text = (req.body?.text || '').trim();
     if (!text) return res.status(400).json({ error: 'text is required' });
     const r = await axios.post(`${ML_API}/text-to-speech`, { text },
-      { responseType: 'arraybuffer', timeout: 30000 });
+      { responseType: 'arraybuffer', timeout: T_PREDICT });
     res.set('Content-Type', 'audio/mpeg');
     return res.send(Buffer.from(r.data));
   } catch (err) {

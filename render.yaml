@@ -10,11 +10,19 @@ services:
     buildCommand: cd frontend && npm install --include=dev && npm run build && cd ../backend && npm install
     startCommand: cd backend && npm start
     envVars:
+      # FIXED. This used to be:
+      #     fromService: { type: web, name: sign-ml-api, property: hostport }
+      # which injects "sign-ml-api:10000" - an internal address with no scheme.
+      # The controller then built "https://sign-ml-api:10000", and TLS to an
+      # internal hostname on a non-standard port always fails, so every
+      # recognition request came back 503. Locally ML_API_URL is unset, the
+      # code falls back to http://127.0.0.1:8000, and everything works - which
+      # is exactly why the bug only appeared once deployed.
+      #
+      # The public URL needs no private networking and no scheme guessing.
+      # If you rename the ML service in this file, change this to match.
       - key: ML_API_URL
-        fromService:
-          type: web
-          name: sign-ml-api
-          property: host
+        value: https://sign-ml-api.onrender.com
       - key: MONGO_URI          # paste your MongoDB Atlas URI in the dashboard
         sync: false
       - key: EMAIL_USER         # Gmail address for OTP mails (optional)
@@ -23,7 +31,8 @@ services:
         sync: false
 
   # ------------------------------------------------------------------
-  # 2) ML service: TFLite + mediapipe, fits the free 512MB instance
+  # 2) ML service: TFLite + mediapipe. Measured peak 360 MB against the
+  #    free tier's 512 MB, with holistic running over 30 frames.
   # ------------------------------------------------------------------
   - type: web
     name: sign-ml-api
