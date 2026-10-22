@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import "./SignToText.css";
+import { API } from "../config";
 
 // ---------------------------------------------------------------------------
 // Why this file changed
@@ -108,7 +109,7 @@ function SignToText() {
   const speakNow = async (text) => {
     if (!text || text.includes("not clear") || text.includes("error")) return;
     try {
-      const r = await fetch("/api/translate/text-to-voice", {
+      const r = await fetch(`${API}/api/translate/text-to-voice`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
@@ -225,7 +226,7 @@ function SignToText() {
       const keypoints = resample(raw);
       setLoading(true);
       try {
-        const r = await fetch("/api/translate/sign-to-text", {
+        const r = await fetch(`${API}/api/translate/sign-to-text`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ keypoints }),

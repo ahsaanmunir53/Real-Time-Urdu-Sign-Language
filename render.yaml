@@ -44,3 +44,29 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.6
+
+  # ------------------------------------------------------------------
+  # 3) The website on its own (static site: never sleeps, opens at once).
+  #    It calls sign-web for login, translation and the 3D models, and
+  #    shows a bar with a seconds count while sign-web wakes up. The 3D
+  #    models (about 380 MB) stay on sign-web, so the static site is small.
+  #    sign-web keeps serving the website at its old address too.
+  # ------------------------------------------------------------------
+  - type: web
+    name: sign-bridge
+    runtime: static
+    rootDir: frontend
+    # CI=false: create-react-app would otherwise stop on lint warnings.
+    buildCommand: npm install --include=dev && CI=false npm run build && rm -rf build/models
+    staticPublishPath: build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # sign-web's address. Change it if Render gave sign-web a different URL.
+      - key: REACT_APP_API_URL
+        value: https://sign-web-v7cj.onrender.com
+

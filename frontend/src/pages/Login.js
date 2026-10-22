@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import '../App.css'; // This should contain your custom styles
+import { API } from "../config";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ function Login() {
   }
 
   try {
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch(`${API}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),

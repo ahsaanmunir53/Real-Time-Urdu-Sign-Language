@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Mail, Lock, Phone, User, ShieldCheck, KeyRound } from "lucide-react";
 import "../index.css";
+import { API } from "../config";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ const handleSendOtp = async () => {
   }
 
   try {
-    const response = await fetch("/api/otp/send", {
+    const response = await fetch(`${API}/api/otp/send`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: formData.email }),
@@ -53,7 +54,7 @@ const handleRegister = async () => {
 
   try {
     // 1. Pehle OTP verify karein
-    const verifyRes = await fetch("/api/otp/verify", {
+    const verifyRes = await fetch(`${API}/api/otp/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: formData.email, otp: formData.otp }),
@@ -65,7 +66,7 @@ const handleRegister = async () => {
     }
 
     // 2. Agar OTP sahi hai, toh Registration karein
-    const regRes = await fetch("/api/auth/register", {
+    const regRes = await fetch(`${API}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -48,6 +48,22 @@ app.get('/api/status', (req, res) => {
 });
 
 
+// ------------------------- keep the ML service awake while people use the site
+// Render puts a free service to sleep after 15 quiet minutes. translateController already wakes the
+// ML service when this server boots; this also wakes it on any later request (a page, or the
+// website's wake-up check), in case the ML service went to sleep since. At most one ping every 10 minutes.
+let lastMlWake = Date.now();
+function wakeMlService() {
+  const raw = (process.env.ML_API_URL || '').trim().replace(/\/+$/, '');
+  if (!/^https?:\/\//i.test(raw) || Date.now() - lastMlWake < 10 * 60 * 1000) return;
+  lastMlWake = Date.now();
+  require('axios').get(raw + '/health', { timeout: 120000 }).catch(() => {});
+}
+app.use((req, res, next) => {
+  if (!req.path.startsWith('/models/')) wakeMlService();
+  next();
+});
+
 // ------------------------- serve the React build (production) --------------
 const buildDir = path.join(__dirname, '..', 'frontend', 'build');
 if (fs.existsSync(buildDir)) {

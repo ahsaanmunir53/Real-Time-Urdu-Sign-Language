@@ -7,6 +7,7 @@ import {
 import { Cpu, Search, RotateCcw, Play, Pause, Camera, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Avatar3D.css';
+import { API } from '../config';
 
 /* ------------------------------------------------------------------ data
    All 41 .glb files, verified against the actual filenames in public/models.
@@ -72,7 +73,7 @@ function Loader() {
 }
 
 function AvatarModel({ file, speed, playing, replayKey }) {
-  const { scene, animations } = useGLTF(`/models/${encodeURIComponent(file)}`);
+  const { scene, animations } = useGLTF(`${API}/models/${encodeURIComponent(file)}`);
   const { actions, names } = useAnimations(animations, scene);
   const actionRef = useRef(null);
 
@@ -282,6 +283,6 @@ const Avatar3D = () => {
 };
 
 // warm the cache for the first few models so the initial pick feels instant
-SIGNS.slice(0, 4).forEach((s) => useGLTF.preload(`/models/${encodeURIComponent(s.file)}`));
+SIGNS.slice(0, 4).forEach((s) => useGLTF.preload(`${API}/models/${encodeURIComponent(s.file)}`));
 
 export default Avatar3D;
