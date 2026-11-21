@@ -1,0 +1,21 @@
+﻿sample_id,label_urdu,label_roman,meaning_en,video_file,keypoints_file,frames,features_per_frame,note
+S01,اچھا,acha,good,videos/S01_acha.mp4,keypoints/S01_acha.csv,30,258,
+S02,ہاں,haan,yes,videos/S02_haan.mp4,keypoints/S02_haan.csv,30,258,yes / no pair
+S03,نہیں,nahin,no,videos/S03_nahin.mp4,keypoints/S03_nahin.csv,30,258,yes / no pair
+S04,خطرناک,khatarnak,dangerous,videos/S04_khatarnak.mp4,keypoints/S04_khatarnak.csv,30,258,opposite pair with mehfooz
+S05,محفوظ,mehfooz,safe,videos/S05_mehfooz.mp4,keypoints/S05_mehfooz.csv,30,258,opposite pair with khatarnak
+S06,خبردار,khabardar,beware,videos/S06_khabardar.mp4,keypoints/S06_khabardar.csv,30,258,
+S07,تیز,tez,fast,videos/S07_tez.mp4,keypoints/S07_tez.csv,30,258,confusable group: speed (tez / jaldi / der se)
+S08,جلدی,jaldi,quickly,videos/S08_jaldi.mp4,keypoints/S08_jaldi.csv,30,258,confusable group: speed (tez / jaldi / der se)
+S09,دیر سے,der se,late,videos/S09_der_se.mp4,keypoints/S09_der_se.csv,30,258,confusable group: speed (tez / jaldi / der se)
+S10,ذہین,zaheen,intelligent,videos/S10_zaheen.mp4,keypoints/S10_zaheen.csv,30,258,confusable group: clever (zaheen / smart / hoshiyar)
+S11,سمارٹ,smart,smart,videos/S11_smart.mp4,keypoints/S11_smart.csv,30,258,confusable group: clever (zaheen / smart / hoshiyar)
+S12,ہوشیار,hoshiyar,clever,videos/S12_hoshiyar.mp4,keypoints/S12_hoshiyar.csv,30,258,confusable group: clever (zaheen / smart / hoshiyar)
+S13,بھاری,bhari,heavy,videos/S13_bhari.mp4,keypoints/S13_bhari.csv,30,258,
+S14,سستا,sasta,cheap,videos/S14_sasta.mp4,keypoints/S14_sasta.csv,30,258,
+S15,نیا,naya,new,videos/S15_naya.mp4,keypoints/S15_naya.csv,30,258,
+S16,دور,door,far,videos/S16_door.mp4,keypoints/S16_door.csv,30,258,
+S17,صحت مند,sehatmand,healthy,videos/S17_sehatmand.mp4,keypoints/S17_sehatmand.csv,30,258,
+S18,پرامن,pur-aman,peaceful,videos/S18_pur_aman.mp4,keypoints/S18_pur_aman.csv,30,258,
+S19,لاجواب,lajawab,excellent,videos/S19_lajawab.mp4,keypoints/S19_lajawab.csv,30,258,
+S20,غیر ملکی,ghair mulki,foreign,videos/S20_ghair_mulki.mp4,keypoints/S20_ghair_mulki.csv,30,258,

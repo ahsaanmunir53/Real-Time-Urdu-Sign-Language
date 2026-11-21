@@ -11,3 +11,5 @@ __pycache__/
 *.log
 dist/
 Thumbs.db
+# sample data shared with the paper
+!dataset_sample/**
