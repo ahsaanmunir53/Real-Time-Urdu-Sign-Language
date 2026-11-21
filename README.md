@@ -1,4 +1,6 @@
-# Real-Time Urdu Sign Language Recognition
+# Sign Bridge: Real-Time Urdu Sign Language Recognition
+
+Code and data sample for the paper **"Sign Bridge: A landmark-based framework for Urdu sign language recognition and avatar rendering, with contributor-disjoint evaluation of a self-collected corpus"** (submitted to PeerJ).
 
 Recognition of isolated Urdu Sign Language (USL) words from an ordinary camera, using
 MediaPipe Holistic skeletal keypoints and temporal deep networks. The repository also
@@ -119,13 +121,15 @@ To run the web app (camera recognition and avatar dictionary), see
 | Five-model ensemble + TTA + SVM blend | 88.86% |
 
 Most of the remaining errors fall between words with related meanings: *zaheen / smart / hoshiyar*
-and *tez / jaldi / der se*. The test split is clip-level, not signer-independent. We plan a
-signer-independent evaluation as future work.
+and *tez / jaldi / der se*. The numbers above use the clip-level split; the contributor-disjoint evaluation is reported in the paper.
 
 ## Citation
 
-If you use this code or dataset, please cite our paper. The full reference will be added
-here once the paper is published.
+If you use this code or dataset, please cite:
+
+> Meh Jabeen, Nitasha Arooj, Ahsaan Munir, Rimsha Tariq, Muneeb Ahmad. *Sign Bridge: A landmark-based framework for Urdu sign language recognition and avatar rendering, with contributor-disjoint evaluation of a self-collected corpus.* PeerJ (under review).
+
+The full reference (volume, DOI) will be added after publication.
 
 ## License and contribution
 
