@@ -13,7 +13,7 @@ from 15 different signs) so that reviewers can see the format and quality of the
 | Language | Urdu Sign Language (Pakistan) |
 | Classes | 33 Urdu words (list below) |
 | Clips | 1,795 in total (median 58 clips per class) |
-| Signers | 15–20 volunteers |
+| Signers | 13 volunteers |
 | Format | One video per clip, one folder per word |
 | Consent | All signers gave permission for their recordings to be used and shared for research |
 

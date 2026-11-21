@@ -10,7 +10,7 @@ includes a web application with real-time camera recognition (sign → text) and
 Urdu Sign Language is the main sign language of Pakistan's deaf community, but it has
 very few annotated datasets or working tools. This project:
 
-- records a **self-curated USL dataset**: 33 words, 1,795 video clips, 15–20 signers ([DATASET.md](DATASET.md));
+- records a **self-curated USL dataset**: 33 words, 1,795 video clips, 13 signers ([DATASET.md](DATASET.md));
 - turns every clip into a sequence of **MediaPipe Holistic keypoints** (30 frames × 258 values);
 - engineers a **271-dimensional per-frame representation**: normalised positions, velocities and hand–face distances;
 - trains **temporal convolution / BiGRU networks**.
@@ -21,7 +21,7 @@ augmentation reaches 88.86%.
 
 ## Dataset information
 
-- 33 isolated Urdu words, 1,795 clips (median 58 per word), recorded by 15–20 volunteer signers.
+- 33 isolated Urdu words, 1,795 clips (median 58 per word), recorded by 13 volunteer signers.
 - This repository contains a **sample of 15 clips** (15 different words) in
   [`dataset_sample/`](dataset_sample). Each clip comes as a video, a keypoint CSV and a
   metadata row with the Urdu label, a Roman transliteration and the English meaning.
