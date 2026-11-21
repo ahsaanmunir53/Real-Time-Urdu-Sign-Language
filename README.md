@@ -22,7 +22,7 @@ augmentation reaches 88.86%.
 ## Dataset information
 
 - 33 isolated Urdu words, 1,795 clips (median 58 per word), recorded by 15–20 volunteer signers.
-- This repository contains a **sample of 20 clips** (20 different words) in
+- This repository contains a **sample of 15 clips** (15 different words) in
   [`dataset_sample/`](dataset_sample). Each clip comes as a video, a keypoint CSV and a
   metadata row with the Urdu label, a Roman transliteration and the English meaning.
 - **The complete dataset will be made available on acceptance of the paper.**
@@ -44,7 +44,7 @@ ml_model/               Flask inference API used by the web app (same feature pi
 ml_api_lite/            TensorFlow Lite version of the API for low-memory hosting
 backend/                Node.js / Express API
 frontend/               React web app (camera recognition, 3D avatar dictionary)
-dataset_sample/         20 sample clips (videos, keypoint CSVs, metadata.csv)
+dataset_sample/         15 sample clips (videos, keypoint CSVs, metadata.csv)
 docs/                   deployment and local setup notes for the web app
 ```
 

@@ -1,8 +1,8 @@
 # Self-curated Urdu Sign Language (USL) dataset
 
 Public Urdu Sign Language data for isolated words is very limited, so we recorded our own
-dataset for this study. This repository contains a **sample of 20 clips** (one clip each
-from 20 different signs) so that reviewers can see the format and quality of the data.
+dataset for this study. This repository contains a **sample of 15 clips** (one clip each
+from 15 different signs) so that reviewers can see the format and quality of the data.
 **The complete dataset will be made available on acceptance of the paper.**
 
 ## Overview
@@ -47,8 +47,8 @@ from 20 different signs) so that reviewers can see the format and quality of the
 ```
 dataset_sample/
 ├── metadata.csv         one row per sample: label (Urdu, Roman, English), files, notes
-├── videos/              S01_acha.mp4 ... S20_ghair_mulki.mp4   (original RGB clips)
-└── keypoints/           S01_acha.csv ... S20_ghair_mulki.csv   (30 rows x 258 columns)
+├── videos/              S01_acha.mp4 ... S15_ghair_mulki.mp4   (original RGB clips)
+└── keypoints/           S01_acha.csv ... S15_ghair_mulki.csv   (30 rows x 258 columns)
 ```
 
 Each keypoint CSV has one row per sampled frame. Its columns are named after the landmarks:
@@ -60,23 +60,18 @@ visible in a frame is stored as zeros.
 | S01 | اچھا | acha | good | common everyday word |
 | S02 | ہاں | haan | yes | yes / no pair |
 | S03 | نہیں | nahin | no | yes / no pair |
-| S04 | خطرناک | khatarnak | dangerous | opposite of *mehfooz* |
-| S05 | محفوظ | mehfooz | safe | opposite of *khatarnak* |
-| S06 | خبردار | khabardar | beware | warning sign |
-| S07 | تیز | tez | fast | speed group (often confused) |
-| S08 | جلدی | jaldi | quickly | speed group (often confused) |
-| S09 | دیر سے | der se | late | speed group, two-word sign |
-| S10 | ذہین | zaheen | intelligent | cleverness group (often confused) |
-| S11 | سمارٹ | smart | smart | cleverness group (often confused) |
-| S12 | ہوشیار | hoshiyar | clever | cleverness group (often confused) |
-| S13 | بھاری | bhari | heavy | descriptive word |
-| S14 | سستا | sasta | cheap | descriptive word |
-| S15 | نیا | naya | new | descriptive word |
-| S16 | دور | door | far | descriptive word |
-| S17 | صحت مند | sehatmand | healthy | two-word sign |
-| S18 | پرامن | pur-aman | peaceful | descriptive word |
-| S19 | لاجواب | lajawab | excellent | descriptive word |
-| S20 | غیر ملکی | ghair mulki | foreign | two-word sign |
+| S04 | خطرناک | khatarnak | dangerous | warning word |
+| S05 | جلدی | jaldi | quickly | speed group (often confused with *tez* / *der se*) |
+| S06 | دیر سے | der se | late | speed group, two-word sign |
+| S07 | ذہین | zaheen | intelligent | cleverness group (often confused with *smart* / *hoshiyar*) |
+| S08 | بھاری | bhari | heavy | descriptive word |
+| S09 | سستا | sasta | cheap | descriptive word |
+| S10 | نیا | naya | new | descriptive word |
+| S11 | دور | door | far | descriptive word |
+| S12 | صحت مند | sehatmand | healthy | two-word sign |
+| S13 | پرامن | pur-aman | peaceful | descriptive word |
+| S14 | لاجواب | lajawab | excellent | descriptive word |
+| S15 | غیر ملکی | ghair mulki | foreign | two-word sign |
 
 ## All 33 classes
 
