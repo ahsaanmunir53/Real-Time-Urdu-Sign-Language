@@ -21,7 +21,7 @@ The best single model (`models/model_3.keras`) reaches **89.42% top-1 accuracy**
 **88.35% macro F1** on 359 held-out test clips. A five-model ensemble with test-time
 augmentation reaches 88.86%.
 
-## Dataset information
+## Dataset Information
 
 - 33 isolated Urdu words, 1,795 clips (median 58 per word), recorded by 13 volunteer signers.
 - This repository contains a **sample of 15 clips** (15 different words) in
@@ -30,7 +30,7 @@ augmentation reaches 88.86%.
 - **The complete dataset will be made available on acceptance of the paper.**
 - Collection protocol, file format and the full class list are in [DATASET.md](DATASET.md).
 
-## Code information
+## Code Information
 
 ```
 training/
@@ -50,16 +50,7 @@ dataset_sample/         15 sample clips (videos, keypoint CSVs, metadata.csv)
 docs/                   deployment and local setup notes for the web app
 ```
 
-## Requirements
-
-- Python 3.10–3.12. TensorFlow 2.19 has no Python 3.13 build.
-- `tensorflow==2.19.0`, `mediapipe==0.10.14`, `protobuf==4.25.3`, `opencv-python-headless`,
-  `numpy`, `scikit-learn`, `tqdm`, `matplotlib` (see `training/requirements.txt`).
-- MediaPipe 0.10.14 needs `protobuf<5`, and TensorFlow 2.19 accepts 4.25.x. Keep these versions pinned.
-- A GPU is recommended for training (we used a Google Colab T4). Evaluation runs on a CPU.
-- The web app also needs Node.js 18+.
-
-## Usage instructions
+## Usage Instructions
 
 ```bash
 git clone https://github.com/ahsaanmunir53/Real-Time-Urdu-Sign-Language.git
@@ -94,6 +85,15 @@ print(le.classes_[probs.argmax()], probs.max())
 To run the web app (camera recognition and avatar dictionary), see
 [docs/LOCAL_SETUP.txt](docs/LOCAL_SETUP.txt).
 
+## Requirements
+
+- Python 3.10–3.12. TensorFlow 2.19 has no Python 3.13 build.
+- `tensorflow==2.19.0`, `mediapipe==0.10.14`, `protobuf==4.25.3`, `opencv-python-headless`,
+  `numpy`, `scikit-learn`, `tqdm`, `matplotlib` (see `training/requirements.txt`).
+- MediaPipe 0.10.14 needs `protobuf<5`, and TensorFlow 2.19 accepts 4.25.x. Keep these versions pinned.
+- A GPU is recommended for training (we used a Google Colab T4). Evaluation runs on a CPU.
+- The web app also needs Node.js 18+.
+
 ## Methodology
 
 1. **Keypoints.** MediaPipe Holistic runs on 30 frames sampled evenly from each clip. Each frame gives 258 values: pose 33×4, plus 21×3 for each hand. Missing parts are stored as zeros.
@@ -123,7 +123,7 @@ To run the web app (camera recognition and avatar dictionary), see
 Most of the remaining errors fall between words with related meanings: *zaheen / smart / hoshiyar*
 and *tez / jaldi / der se*. The numbers above use the clip-level split; the contributor-disjoint evaluation is reported in the paper.
 
-## Citation
+## Citations
 
 If you use this code or dataset, please cite:
 
@@ -131,7 +131,7 @@ If you use this code or dataset, please cite:
 
 The full reference (volume, DOI) will be added after publication.
 
-## License and contribution
+## License & Contribution Guidelines
 
 - Code: [MIT License](LICENSE).
 - Dataset sample: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
